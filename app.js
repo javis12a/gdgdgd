@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Xử lý sự kiện lưu điểm danh
     document.getElementById('save-btn').addEventListener('click', handleAttendance);
 });
 
@@ -46,23 +45,13 @@ async function saveAttendance(studentName) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ student: studentName })
+            body: JSON.stringify({ student: studentName }) // Dữ liệu phải được định dạng JSON
         });
 
-        // Kiểm tra phản hồi JSON và trường 'success'
         const data = await response.json();
-
-        if (data.success) {
-            console.log('Success:', data);
-            return true;
-        } else {
-            console.error('Lỗi từ Apps Script:', data.error);
-            alert('Lỗi từ Apps Script: ' + data.error);
-            return false;
-        }
+        return data.success;
     } catch (error) {
         console.error('Error:', error);
-        alert('Đã xảy ra lỗi: ' + error.message);
         return false;
     }
 }
