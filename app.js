@@ -84,10 +84,19 @@ async function saveAttendance(studentName) {
 
         // Kiểm tra nếu phản hồi trả về là JSON và chứa trường success
         const data = await response.json();
-        console.log('Success:', data);
-        return data.success;
+
+        if (data.success) {
+            console.log('Success:', data);
+            return true;
+        } else {
+            console.error('Lỗi từ phía Apps Script:', data.error);
+            alert('Lỗi từ phía Apps Script: ' + data.error);
+            return false;
+        }
     } catch (error) {
         console.error('Error:', error);
+        alert('Đã xảy ra lỗi: ' + error.message);
         return false;
     }
 }
+
