@@ -1,40 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Xử lý sự kiện đăng nhập
-    document.getElementById('login-btn').addEventListener('click', handleLogin);
-
     // Xử lý sự kiện lưu điểm danh
     document.getElementById('save-btn').addEventListener('click', handleAttendance);
 });
-
-// Hàm xử lý đăng nhập
-function handleLogin() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    if (validateLogin(username, password)) {
-        toggleVisibility('login-container', 'attendance-container');
-    } else {
-        displayError('login-error', 'Sai tài khoản hoặc mật khẩu!');
-    }
-}
-
-// Xác thực tài khoản đăng nhập
-function validateLogin(username, password) {
-    const validUsername = 'kidstars';
-    const validPassword = 'kidstars145@';
-    return username === validUsername && password === validPassword;
-}
-
-// Chuyển đổi ẩn/hiện giữa hai phần tử
-function toggleVisibility(hideElementId, showElementId) {
-    document.getElementById(hideElementId).classList.add('hidden');
-    document.getElementById(showElementId).classList.remove('hidden');
-}
-
-// Hiển thị thông báo lỗi
-function displayError(elementId, message) {
-    document.getElementById(elementId).textContent = message;
-}
 
 // Hàm xử lý điểm danh học sinh
 function handleAttendance() {
@@ -71,7 +38,7 @@ function addStudentToList(studentName) {
 
 // Hàm lưu điểm danh vào Google Apps Script
 async function saveAttendance(studentName) {
-    const url = 'https://script.google.com/macros/s/AKfycbwzQZmb6_2n0ZYEI69Acs2w8t4Z9enjQa6KEXwjDzpiT_B-g09LGUZZoxnMd3iMSmN5/exec';
+    const url = 'https://script.google.com/macros/s/AKfycbyN6sU1V7-K2Ynx880p-_dqVKhQ7F-arjWIzyFwDqoq9tp0zZfov5x0LVR9MUH7OTpW6A/exec'; // Thay bằng URL Google Apps Script đã triển khai
 
     try {
         const response = await fetch(url, {
@@ -82,15 +49,15 @@ async function saveAttendance(studentName) {
             body: JSON.stringify({ student: studentName })
         });
 
-        // Kiểm tra nếu phản hồi trả về là JSON và chứa trường success
+        // Kiểm tra phản hồi JSON và trường 'success'
         const data = await response.json();
 
         if (data.success) {
             console.log('Success:', data);
             return true;
         } else {
-            console.error('Lỗi từ phía Apps Script:', data.error);
-            alert('Lỗi từ phía Apps Script: ' + data.error);
+            console.error('Lỗi từ Apps Script:', data.error);
+            alert('Lỗi từ Apps Script: ' + data.error);
             return false;
         }
     } catch (error) {
@@ -99,4 +66,3 @@ async function saveAttendance(studentName) {
         return false;
     }
 }
-
