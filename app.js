@@ -82,8 +82,9 @@ async function saveAttendance(studentName) {
             body: JSON.stringify({ student: studentName })
         });
 
-        // Nếu yêu cầu thành công, Google Apps Script sẽ trả về JSON
+        // Kiểm tra nếu phản hồi trả về là JSON và chứa trường success
         const data = await response.json();
+        console.log('Success:', data);
         return data.success;
     } catch (error) {
         console.error('Error:', error);
